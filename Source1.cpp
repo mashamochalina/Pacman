@@ -14,8 +14,11 @@ using namespace sf;
 
 int main()
 {
-	RenderWindow window(sf::VideoMode(1300, 1300), "Packman");
-	view.reset(sf::FloatRect(0, 0, 1300, 1300));
+
+	int i;  
+
+	RenderWindow window(sf::VideoMode(1000, 1000), "Packman");
+	view.reset(sf::FloatRect(0, 0, 1000, 1000));
 
 	Font font; 
 	font.loadFromFile("CyrilicOld.ttf");
@@ -41,9 +44,21 @@ int main()
 	
 	Image easyEnemyImage;
 	easyEnemyImage.loadFromFile("images/ghost.png");
+
 	
+	const size_t max_size = 4;
+
+	Enemy enemy_arr[max_size] = {    
+		
+	Enemy (easyEnemyImage, 1350, 650, 68, 82, "easyEnemy"),
+	Enemy (easyEnemyImage, 1350, 250, 68, 82, "easyEnemy2"),
+	Enemy(easyEnemyImage, 1350, 50, 68, 82, "easyEnemy2"),
+	Enemy(easyEnemyImage, 1350, 450, 68, 82, "easyEnemy2"),
+	};
+
+
+
 	
-	Enemy easyEnemy( easyEnemyImage, 1350, 671, 68, 82, "EasyEnemy" );
 
 	Image map_image;
 	map_image.loadFromFile("images/map.png");
@@ -62,6 +77,8 @@ int main()
 	s_quest.setTexture(quest_texture);
 	s_quest.setTextureRect(IntRect(0, 0, 680, 840));  
 	s_quest.setScale(0.7f, 0.7f);
+
+
 
 	bool showMissionText = true;
 
@@ -144,13 +161,28 @@ int main()
 				p.sprite.setTextureRect(IntRect(225, 0, 114, 118));
 				getplayercoordinateforview(p.getplayercoordinateX(), p.getplayercoordinateY());
 			}
+
 		}
 		p.update(time);
-		easyEnemy.update(time);
+		for (int i = 0; i < max_size; i++) {
+			enemy_arr[i].update(time);
+		}
 		window.setView(view);
 		window.clear();
 
 
+
+		for (int i = 0; i < max_size; i++) 
+		{
+			if ((enemy_arr[i].getRect().intersects(p.getRect())))
+			{
+
+				p.health -= 1;
+				
+
+			}
+
+		}
 
 		if ((getCurrentMission(p.getplayercoordinateX())) == 0)
 		{
@@ -220,7 +252,10 @@ int main()
 		window.draw(text2);
 		window.draw(text);
 		window.draw(p.sprite);
-		window.draw(easyEnemy.sprite);
+		for (int i = 0; i < max_size; i++)
+		{
+			window.draw(enemy_arr[i].sprite);
+		}
 		window.display();
 	}
 
