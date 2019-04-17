@@ -4,12 +4,13 @@ class Enemy :
 	public Entity
 {
 	public:
-	
+		FloatRect rect;
 			Enemy(Image &image, float X, float Y, int W, int H, String Name) :Entity(image, X, Y, W, H, Name) {
-				if (name == "EasyEnemy") {
+				rect = FloatRect (x, y, 68, 82) ;
+				//if (name == "EasyEnemy") {
 					sprite.setTextureRect(IntRect(0, 0, w, h));
 					dx = 0.1;
-				}
+				//}
 			}
 
 			void checkCollisionWithMap(float Dx, float Dy)
@@ -20,24 +21,28 @@ class Enemy :
 						if (TileMap[i][j] == '0')
 						{
 							if (Dy > 0) { y = i * 32 - h; }
-							if (Dy < 0) { y = i * 32 + 32; }//столкновение с верхними краями карты(может и не пригодиться)
-							if (Dx > 0) { x = j * 32 - w; dx = -0.1; sprite.scale(-1, 1); }//с правым краем карты
-							if (Dx < 0) { x = j * 32 + 32; dx = 0.1; sprite.scale(-1, 1); }// с левым краем карты
+							if (Dy < 0) { y = i * 32 + 32; }
+							if (Dx > 0) { x = j * 32 - w; dx = -0.1; sprite.scale(-1, 1); }
+							if (Dx < 0) { x = j * 32 + 32; dx = 0.1; sprite.scale(-1, 1); }
 						}
 					}
 			}
 
 			void update(float time)
 			{
-				if (name == "EasyEnemy") {//для персонажа с таким именем логика будет такой
+				if ((name == "easyEnemy")|| (name == "easyEnemy2")) {
 
 					//moveTimer += time;if (moveTimer>3000){ dx *= -1; moveTimer = 0; }//меняет направление примерно каждые 3 сек
 					checkCollisionWithMap(dx, 0);//обрабатываем столкновение по Х
 					x += dx * time;
-					sprite.setPosition(x + w / 2, y + h / 2); //задаем позицию спрайта в место его центра
+					sprite.setPosition(x + w / 2, y + h / 2); 
 					if (health <= 0) { life = false; }
 				}
 
+			}
+			FloatRect getRect()
+			{
+				return FloatRect(x, y, w, h);
 			}
 };
 

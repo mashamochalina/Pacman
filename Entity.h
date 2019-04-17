@@ -20,9 +20,7 @@ public:
 			}
 
 			virtual void update(float time) = 0;
-			FloatRect getRect() {
-				return FloatRect(x, y, w, h);
-			}
+
 };
 
 
