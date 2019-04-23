@@ -13,9 +13,7 @@
 using namespace sf;
 
 int main()
-{
-
-	int i;  
+{  
 
 	RenderWindow window(sf::VideoMode(1000, 1000), "Packman");
 	view.reset(sf::FloatRect(0, 0, 1000, 1000));
@@ -163,6 +161,7 @@ int main()
 			}
 
 		}
+
 		p.update(time);
 		for (int i = 0; i < max_size; i++) {
 			enemy_arr[i].update(time);
@@ -177,9 +176,29 @@ int main()
 			if ((enemy_arr[i].getRect().intersects(p.getRect())))
 			{
 
-				p.health -= 1;
-				
+					if (enemy_arr[i].dx > 0)
+					{
+						p.health -= 25;
+						enemy_arr[i].x = p.getplayercoordinateX() - enemy_arr[i].w  ;
+						if (p.dx < 0) { p.setplayercoordinateX(enemy_arr[i].x + enemy_arr[i].w); }//если столкнулись с врагом и игрок идет влево то выталкиваем игрока
+						if (p.dx > 0) { p.setplayercoordinateX(enemy_arr[i].x - p.w); }//если столкнулись с врагом и игрок идет вправо то выталкиваем игрока
+						enemy_arr[i].dx = 0;
+						enemy_arr[i].x = 1355;
+						enemy_arr[i].dx = 0.1;
+						
 
+					}
+					if (enemy_arr[i].dx < 0)
+					{
+						p.health -= 25;
+						enemy_arr[i].x = p.getplayercoordinateX() + p.w  ;
+						if (p.dx < 0) { p.setplayercoordinateX(enemy_arr[i].x + enemy_arr[i].w); }//если столкнулись с врагом и игрок идет влево то выталкиваем игрока
+						if (p.dx > 0) { p.setplayercoordinateX(enemy_arr[i].x - p.w); }//если столкнулись с врагом и игрок идет вправо то выталкиваем игрока
+						enemy_arr[i].dx = 0;
+						enemy_arr[i].x = 3000;
+						enemy_arr[i].dx = -0.1;
+						
+					}
 			}
 
 		}
@@ -219,7 +238,6 @@ int main()
 					window.draw(s_map);
 				}
 		}
-
 
 
 

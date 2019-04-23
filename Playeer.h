@@ -12,11 +12,14 @@ public:
 	Image image;
 	Texture texture;
 	Sprite sprite;
+	FloatRect rect;
 
 
 	Playeer(String F, float X, float Y, float W, float H)
 	{
 		dx = 0;dy = 0;speed = 0;dir = 0; playerScore = 0; moneyScore = 0; health = 100;
+		x = X; y = Y;
+		rect = FloatRect(x, y, 104.0, 117.0);
 		life = true;
 		File = F;
 		w = W; h = H;
@@ -24,7 +27,6 @@ public:
 		image.createMaskFromColor(Color(0, 0, 0));//"hero.png" и получится запись идентичная image.loadFromFile("images/hero/png");
 		texture.loadFromImage(image);
 		sprite.setTexture(texture);
-		x = X; y = Y;
 		sprite.setTextureRect(IntRect(0, 0, w, h));// IntRect - приведение типов
 
 	}
@@ -32,7 +34,10 @@ public:
 	~Playeer();
 
 
-
+	FloatRect getRect()
+	{
+		return FloatRect(x, y, w, h);
+	}
 
 	void update(float time)
 	{
@@ -56,6 +61,15 @@ public:
 		}
 	}
 
+	void setplayercoordinateX(float x)
+	{
+		this->x = x;
+	}
+
+	void setplayercoordinateY(float y)
+	{
+		this->y = y;
+	}
 
 	float getplayercoordinateX()
 	{
